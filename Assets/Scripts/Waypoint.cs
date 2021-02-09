@@ -7,6 +7,7 @@ public class Waypoint : MonoBehaviour
 {
     public int GridSize { get; private set; } = 10;
     public bool IsExplored { get; set; } = false;
+    public Waypoint ExploredFrom { get; set; }
 
     public Vector2Int GetGridPosition()
     {

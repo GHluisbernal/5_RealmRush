@@ -5,31 +5,44 @@ using UnityEngine;
 
 public class PathFinder : MonoBehaviour
 {
-    [SerializeField] Waypoint startWaypoint, endWaypoint;
+    [SerializeField] private Waypoint startWaypoint, endWaypoint;
 
-    Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();
-    Queue<Waypoint> queue = new Queue<Waypoint>();
-    Vector2Int[] directions =
+    private Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();
+    private Queue<Waypoint> queue = new Queue<Waypoint>();
+    private Vector2Int[] directions =
     {
         Vector2Int.left,
         Vector2Int.right,
         Vector2Int.up,
         Vector2Int.down
     };
+    private List<Waypoint> path;
 
-    private void Start()
+    public List<Waypoint> GetPath()
     {
+        path = new List<Waypoint>();
         LoadBlocks();
         ColorStartAndEnd();
         BreadFirstSearch();
+        CreatePath(endWaypoint);
+        return path;
+    }
+
+    private void CreatePath(Waypoint currentWaypoint)
+    {
+        if (currentWaypoint != startWaypoint)
+        {
+            CreatePath(currentWaypoint.ExploredFrom);
+        }
+        path.Add(currentWaypoint);
     }
 
     private void BreadFirstSearch()
     {
+        startWaypoint.IsExplored = true;
         queue.Enqueue(startWaypoint);
         while (queue.Count > 0) {
             var currentWaypoint = queue.Dequeue();
-            currentWaypoint.IsExplored = true;
             if (currentWaypoint == endWaypoint)
             {
                 break;
@@ -44,8 +57,9 @@ public class PathFinder : MonoBehaviour
                     var futureWaypoint = grid[futurePosition];
                     if (!futureWaypoint.IsExplored)
                     {
+                        futureWaypoint.IsExplored = true;
+                        futureWaypoint.ExploredFrom = currentWaypoint;
                         queue.Enqueue(futureWaypoint);
-                        futureWaypoint.SetTopColor(Color.blue);
                     }
                 }
             }
