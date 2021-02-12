@@ -16,15 +16,17 @@ public class PathFinder : MonoBehaviour
         Vector2Int.up,
         Vector2Int.down
     };
-    private List<Waypoint> path;
+    private List<Waypoint> path = new List<Waypoint>();
 
     public List<Waypoint> GetPath()
     {
-        path = new List<Waypoint>();
-        LoadBlocks();
-        ColorStartAndEnd();
-        BreadFirstSearch();
-        CreatePath(endWaypoint);
+        if (path.Count == 0)
+        {
+            LoadBlocks();
+            ColorStartAndEnd();
+            BreadFirstSearch();
+            CreatePath(endWaypoint);
+        }
         return path;
     }
 
