@@ -5,9 +5,10 @@ using UnityEngine;
 public class Tower : MonoBehaviour
 {
     [SerializeField] Transform objectToPan;
-    [SerializeField] Transform enemy;
     [SerializeField] float attackRange = 30;
+
     ParticleSystem bulletParticleSystem;
+    Transform enemy;
 
     private void Awake()
     {
@@ -16,6 +17,7 @@ public class Tower : MonoBehaviour
 
     private void Update()
     {
+        SetTargetEnemy();
         if (enemy)
         {
             LookAtEnemy();
@@ -25,6 +27,26 @@ public class Tower : MonoBehaviour
         {
             ToggleTowerProjectile(false);
         }
+    }
+
+    private void SetTargetEnemy()
+    {
+        var enemies = FindObjectsOfType<EnemyDamage>();
+        if (enemies.Length == 0) { return;  }
+
+        var bestEnemy = enemies[0];
+        var bestDistance = Vector3.Distance(transform.position, bestEnemy.transform.position);
+        foreach (var enemyOnScene in enemies)
+        {
+            var distance = Vector3.Distance(transform.position, enemyOnScene.transform.position);
+            if (distance < bestDistance)
+            {
+                bestEnemy = enemyOnScene;
+                bestDistance = distance;
+            }
+        }
+
+        enemy = bestEnemy.transform;
     }
 
     private void FireAtEnemy()
