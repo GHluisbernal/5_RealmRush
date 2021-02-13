@@ -23,7 +23,6 @@ public class PathFinder : MonoBehaviour
         if (path.Count == 0)
         {
             LoadBlocks();
-            ColorStartAndEnd();
             BreadFirstSearch();
             CreatePath(endWaypoint);
         }
@@ -57,7 +56,7 @@ public class PathFinder : MonoBehaviour
                 if (grid.ContainsKey(futurePosition))
                 {
                     var futureWaypoint = grid[futurePosition];
-                    if (!futureWaypoint.IsExplored)
+                    if (!futureWaypoint.canHaveTower && !futureWaypoint.IsExplored)
                     {
                         futureWaypoint.IsExplored = true;
                         futureWaypoint.ExploredFrom = currentWaypoint;
@@ -66,12 +65,6 @@ public class PathFinder : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void ColorStartAndEnd()
-    {
-        startWaypoint.SetTopColor(Color.white);
-        endWaypoint.SetTopColor(Color.black);
     }
 
     private void LoadBlocks()

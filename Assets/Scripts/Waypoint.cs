@@ -8,6 +8,9 @@ public class Waypoint : MonoBehaviour
     public int GridSize { get; private set; } = 10;
     public bool IsExplored { get; set; } = false;
     public Waypoint ExploredFrom { get; set; }
+    public bool canHaveTower = false;
+    [SerializeField] private Tower towerPrefab;
+
 
     public Vector2Int GetGridPosition()
     {
@@ -17,9 +20,11 @@ public class Waypoint : MonoBehaviour
         );
     }
 
-    internal void SetTopColor(Color color)
+    private void OnMouseDown()
     {
-        var topMeshRenderer = transform.Find("Top").GetComponent<MeshRenderer>();
-        topMeshRenderer.material.color = color;
+        if (canHaveTower)
+        {
+            Instantiate(towerPrefab, transform.position, Quaternion.identity);
+        }
     }
 }

@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] float secondsBetweenSpawns = 5f;
     [SerializeField] private EnemyMovement enemy;
 
-    private void Start()
+    private void Awake()
     {
         var pathFinder = FindObjectOfType<PathFinder>();
         transform.position = pathFinder.startWaypoint.transform.position;
