@@ -9,7 +9,6 @@ public class Waypoint : MonoBehaviour
     public bool IsExplored { get; set; } = false;
     public Waypoint ExploredFrom { get; set; }
     public bool canHaveTower = false;
-    [SerializeField] private Tower towerPrefab;
 
 
     public Vector2Int GetGridPosition()
@@ -24,7 +23,7 @@ public class Waypoint : MonoBehaviour
     {
         if (canHaveTower)
         {
-            Instantiate(towerPrefab, transform.position, Quaternion.identity);
+            FindObjectOfType<TowerFactory>().AddTower(this);
         }
     }
 }

@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    [SerializeField] Transform objectToPan;
-    [SerializeField] float attackRange = 30;
+    [SerializeField] private Transform objectToPan;
+    [SerializeField] private float attackRange = 30;
 
-    ParticleSystem bulletParticleSystem;
-    Transform enemy;
+    private ParticleSystem bulletParticleSystem;
+    private Transform enemy;
+    internal Waypoint baseWaypoint;
 
     private void Awake()
     {

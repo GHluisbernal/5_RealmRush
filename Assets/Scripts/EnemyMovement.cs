@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    [SerializeField] private float movementPeriod = 0.5f;
 
     private void Start()
     {
@@ -17,7 +18,13 @@ public class EnemyMovement : MonoBehaviour
         foreach (var waypoint in path)
         {
             transform.position = waypoint.transform.position;
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(movementPeriod);
         }
+        SelftDestroy();
+    }
+
+    private void SelftDestroy()
+    {
+        Destroy(gameObject);
     }
 }
